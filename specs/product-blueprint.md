@@ -4,6 +4,7 @@
 > **Auteur :** Product Owner (Agent PO)  
 > **Date :** 2026-02-10  
 > **Destinataire :** Agent Phase M (Making)  
+> **Révision :** v2 — Intégration feedback utilisateur  
 
 ---
 
@@ -60,7 +61,7 @@ Le contenu textuel, les références culturelles (Star Wars, Matrix, Retour vers
 1. L'identité cyberpunk (grille perspective, néons, tubes lumineux)
 2. Les références pop-culture comme fil conducteur narratif
 3. Le contenu textuel autobiographique (modifiable par Corentin mais pas par nous)
-4. La palette de couleurs (orange `#D85912` / rose `#E95F69` / cyan `#00bfff` / noir)
+4. La palette néon (rose `#ff379b` / magenta `#ff0080` / cyan `#00bfff` / violet `#54214B`) — le orange n'est pas sacré, les néons roses sont le cœur
 5. La typographie Orbitron (principale) et Montserrat Alternates (corps)
 6. Les animations fly-in du nom et l'orbite des boutons
 
@@ -85,13 +86,12 @@ Le contenu textuel, les références culturelles (Star Wars, Matrix, Retour vers
 
 | # | Amélioration | Impact | Priorité |
 |---|---|---|---|
-| U1 | **SPA (Single Page Application)** : Convertir en scroll continu avec sections au lieu de pages séparées avec iframe loading | UX fluide | P1 |
-| U2 | **Navbar latérale ou fixe** avec indicateurs de section actuelle (dots ou ligne lumineuse cyberpunk) | Navigation claire | P1 |
-| U3 | **Smooth scrolling** avec `scroll-behavior: smooth` et `IntersectionObserver` pour highlight nav | Cohérence | P1 |
+| U1 | **Multi-page avec transitions immersives** : Conserver des pages séparées mais remplacer les iframes par des transitions plein-écran cinématiques (warp, glitch, fondu néon, hyperespace...). Chaque navigation doit donner l'impression de **voyager** | Immersion, WOW | P1 |
+| U2 | **Navbar cyberpunk** : Navigation fixe (barre ou latérale) avec indicateurs visuels néon de la page active | Navigation claire | P1 |
+| U3 | **Transitions variées** : Chaque page peut avoir son propre style de transition (hyperespace pour Home→Skills, glitch Matrix pour →Searching, etc.) | Surprise, voyage | P1 |
 | U4 | **Skip liens d'accessibilité** et navigation clavier complète | Accessibilité | P2 |
-| U5 | **Transitions entre sections** avec des effets de fondu/glitch plutôt qu'iframes de loading | Performance | P1 |
-| U6 | **Section Hero améliorée** : Garder le fly-in + orbite mais ajouter une particule/glow ambiance en fond | WOW first impression | P1 |
-| U7 | **CTA (Call to Action) visible** : Bouton de contact/email bien identifiable | Conversion recruteur | P1 |
+| U5 | **Section Hero améliorée** : Garder le fly-in + orbite mais ajouter une particule/glow ambiance en fond | WOW first impression | P1 |
+| U6 | **Coordonnées accessibles** : LinkedIn, email et CV visibles à travers les pages (About Me, Skills, liens) — pas de section Contact dédiée | Conversion recruteur | P1 |
 
 ### 3.3 ⚡ Performance
 
@@ -139,45 +139,58 @@ Le contenu textuel, les références culturelles (Star Wars, Matrix, Retour vers
 
 ## 4. Architecture cible
 
-### 4.1 Proposition structurelle : SPA en sections
+### 4.1 Proposition structurelle : Multi-page avec transitions immersives
+
+> ⚡ **Décision utilisateur** : Conserver des pages séparées mais avec des transitions cinématiques plein-écran entre chaque page. L'utilisateur doit avoir l'impression de **voyager** à chaque changement de page.
 
 ```
-index.html (SPA — document unique)
-├── <header>   → Navbar cyberpunk fixe / latérale
-├── <main>
-│   ├── <section#hero>       → Home actuelle (fly-in + orbite, améliorée)
-│   ├── <section#about>      → About Me (convecteur temporel, amélioré)
-│   ├── <section#skills>     → Skills (compétences + anneau CV, amélioré)
-│   ├── <section#search>     → Veille technologique (Matrix pills + Mario, amélioré)
-│   ├── <section#projects>   → Projets (cartes améliorées, hover effects, amélioré)
-│   └── <section#contact>    → NOUVEAU — CTA recruteur, liens réseaux
-├── <footer>   → Crédits, liens, copyright
-└── <canvas>   → Grille perspective (fond global, améliorée)
+PortfolioV2/
+├── index.html        → Home (fly-in + orbite + grille, améliorée)
+├── about.html        → About Me (convecteur temporel, amélioré)
+├── skills.html       → Skills (compétences + anneau CV, amélioré)
+├── searching.html    → Veille techno (Matrix pills + Mario, amélioré)
+├── projects.html     → Projets (cartes améliorées, hover effects)
+│
+│   Chaque page contient :
+│   ├── <header>   → Navbar cyberpunk fixe (commune)
+│   ├── <main>     → Contenu spécifique à la page
+│   ├── <footer>   → Crédits, liens (commun)
+│   └── <canvas>   → Grille perspective (fond global)
+│
+└── Système de transitions :
+    ├── Overlay plein-écran animé au clic sur un lien
+    ├── Transitions variées (warp, glitch, fondu néon, hyperespace...)
+    └── Impression de voyage entre les pages
 ```
 
 ### 4.2 Arborescence fichiers cible
 
 ```
 PortfolioV2/
-├── index.html                 # SPA unique
+├── index.html                 # Page Home (hero)
+├── about.html                 # Page About Me
+├── skills.html                # Page Skills
+├── searching.html             # Page Veille Techno
+├── projects.html              # Page Projects
 ├── css/
 │   ├── variables.css          # Custom properties (palette, spacing, timing)
 │   ├── reset.css              # Modern CSS reset
-│   ├── main.css               # Layout global, navbar, footer
-│   ├── hero.css               # Section hero
-│   ├── about.css              # Section about
-│   ├── skills.css             # Section skills
-│   ├── search.css             # Section veille
-│   ├── projects.css           # Section projects
-│   ├── contact.css            # Section contact
-│   ├── animations.css         # Toutes les animations (neon, fly-in, etc.)
+│   ├── main.css               # Layout global, navbar, footer, commun
+│   ├── transitions.css        # Animations de transition inter-pages
+│   ├── hero.css               # Styles page home
+│   ├── about.css              # Styles page about
+│   ├── skills.css             # Styles page skills
+│   ├── search.css             # Styles page veille
+│   ├── projects.css           # Styles page projects
+│   ├── animations.css         # Animations communes (neon, fly-in, etc.)
 │   └── responsive.css         # Media queries centralisées
 ├── js/
-│   ├── main.js                # Navigation SPA, smooth scroll, navbar
-│   ├── hero.js                # Fly-in text, orbit buttons (sans jQuery)
+│   ├── main.js                # Navbar, transitions inter-pages, commun
+│   ├── transitions.js         # Moteur de transitions cinématiques
+│   ├── hero.js                # Fly-in text, orbit buttons
 │   ├── grid.js                # Canvas grid (optimisé)
-│   ├── about.js               # Convecteur temporel (sans jQuery)
-│   ├── search.js              # Pilules, bloc Mario (sans jQuery)
+│   ├── about.js               # Convecteur temporel
+│   ├── search.js              # Pilules, bloc Mario
 │   ├── projects.js            # Animations projets
 │   ├── cursor.js              # Curseur custom (optionnel)
 │   ├── scroll-animations.js   # Intersection Observer pour les entrées
@@ -193,12 +206,15 @@ PortfolioV2/
 
 ### 4.3 Stack technologique cible
 
-| Aspect | Choix | Justification |
+> 🔓 **Décision utilisateur** : L'Agent M a **libre choix** sur les langages et technologies. Les suggestions ci-dessous sont des recommandations, pas des contraintes. Un framework (React, Vite, Astro...) ou du vanilla sont tous acceptables.
+
+| Aspect | Suggestion | Justification |
 |---|---|---|
-| **Langage** | HTML5 sémantique + CSS + JS ES6+ natif | Pas de framework = légèreté, contrôle total, cyberpunk "handcrafted" |
-| **CSS** | Variables CSS (Custom Properties) + Vanilla | Maintenabilité, thème cohérent |
-| **JS** | Vanilla ES6+ (modules si besoin) | Suppression de jQuery, modernité |
-| **Animations** | CSS @keyframes + Intersection Observer + requestAnimationFrame | Performance GPU-optimisée |
+| **Base** | Au choix de l'Agent M (vanilla, Vite, Astro, etc.) | Libre choix technologique |
+| **CSS** | Variables CSS (Custom Properties) ou framework CSS | Maintenabilité, thème cohérent |
+| **JS** | ES6+ natif ou framework au choix | Modernité, suppression de jQuery |
+| **Animations** | CSS @keyframes + Web Animations API + requestAnimationFrame (ou GSAP) | Performance GPU-optimisée |
+| **Transitions** | Système de transition plein-écran custom (CSS + JS) | Impression de voyage |
 | **Images** | WebP (avec PNG fallback `<picture>`) | Performance |
 | **Hébergement** | GitHub Pages ou Vercel (gratuit) | Simplicité |
 
@@ -210,24 +226,25 @@ PortfolioV2/
 
 ```css
 :root {
-  /* Base */
-  --bg-primary: #0a0a0f;       /* Fond sombre */
-  --bg-secondary: #12121a;     /* Cartes / conteneurs */
-  --bg-gradient: linear-gradient(135deg, #E95F69, #D85912);  /* Heritage */
+  /* Base — Fond sombre cyberpunk */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-deep: #060610;
 
-  /* Néons — Accent */
-  --neon-pink: #ff379b;
-  --neon-cyan: #00bfff;
-  --neon-orange: #D85912;
-  --neon-yellow: #fffb23;
-  --neon-magenta: #ff0080;
-  --neon-violet: #54214B;
-  --neon-green: #39ff14;
+  /* Néons — Cœur de l'identité (ROSE = couleur dominante) */
+  --neon-pink: #ff379b;       /* ⭐ Accent principal */
+  --neon-magenta: #ff0080;    /* ⭐ Glow principal */
+  --neon-cyan: #00bfff;       /* Accent secondaire */
+  --neon-violet: #7b2ff2;     /* Profondeur */
+  --neon-purple: #54214B;     /* Ombres néon */
+  --neon-yellow: #fffb23;     /* Accent tertiaire */
+  --neon-green: #39ff14;      /* Détails, accents rares */
+  --neon-orange: #D85912;     /* Heritage — usage modéré */
 
   /* Texte */
   --text-primary: #ffffff;
   --text-secondary: #c0c0d0;
-  --text-accent: #ffa9d4;
+  --text-accent: #ffa9d4;     /* Rose pâle — liens, highlights */
 
   /* Glassmorphism */
   --glass-bg: rgba(18, 18, 26, 0.7);
@@ -245,8 +262,11 @@ PortfolioV2/
   --transition-fast: 150ms ease;
   --transition-normal: 300ms ease;
   --transition-slow: 600ms ease;
+  --transition-page: 800ms cubic-bezier(0.77, 0, 0.175, 1);  /* Transitions inter-pages */
 }
 ```
+
+> 🎨 **Note palette** : Le rose néon (`--neon-pink`, `--neon-magenta`) est la couleur dominante. L'orange est conservé en tant qu'accent secondaire mais n'est plus l'identité visuelle principale. Les néons roses, cyan et violet forment le triangle chromatique cyberpunk du portfolio.
 
 ### 5.2 Typographie
 
@@ -343,15 +363,14 @@ PortfolioV2/
 | ID | En tant que... | Je veux... | Afin de... |
 |---|---|---|---|
 | US8 | Visiteur | voir des animations au scroll (entrées progressives) | sentir le dynamisme du site |
-| US9 | Recruteur | trouver un moyen de contacter Corentin | initier une prise de contact facilement |
-| US10 | Visiteur | voir un curseur personnalisé cyberpunk | renforcer l'immersion |
+| US9 | Visiteur | voir un curseur personnalisé cyberpunk | renforcer l'immersion |
+| US10 | Visiteur | vivre des transitions de page variées et spectaculaires | avoir l'impression de voyager dans l'univers cyberpunk |
 
 ### Could Have (P3)
 
 | ID | En tant que... | Je veux... | Afin de... |
 |---|---|---|---|
 | US11 | Visiteur | voir une section "témoignages" ou "recommandations" | évaluer la fiabilité du développeur |
-| US12 | Visiteur | pouvoir basculer dark/light mode | adapter l'affichage à mes préférences |
 
 ---
 
@@ -359,11 +378,13 @@ PortfolioV2/
 
 - [ ] Le portfolio conserve 100% du contenu textuel original
 - [ ] Toutes les références culturelles sont présentes et fonctionnelles
-- [ ] Le site est une SPA ou une structure avec transitions fluides (pas d'iframes de loading)
+- [ ] Le site est multi-page avec des transitions cinématiques immersives (pas d'iframes de loading)
+- [ ] Chaque transition de page donne une impression de **voyage**
+- [ ] Pas de section Contact dédiée — les coordonnées sont disséminées dans les pages (About Me, Skills, liens)
 - [ ] Le site obtient un score Lighthouse ≥ 90 sur Performance, Accessibilité, Best Practices, SEO
 - [ ] Le site est responsive sur mobile (< 480px), tablette (480–1024px), desktop (> 1024px)
 - [ ] Toutes les animations respectent `prefers-reduced-motion`
-- [ ] jQuery est supprimé, tout est en JS natif ES6+
+- [ ] jQuery est supprimé (tech stack au libre choix de l'Agent M)
 - [ ] Les images sont en WebP avec fallback
 - [ ] Le HTML est sémantique (`<header>`, `<main>`, `<section>`, `<nav>`, `<footer>`)
 - [ ] Les couleurs suivent le design system établi (variables CSS)
@@ -387,20 +408,20 @@ PortfolioV2/
 ## 11. Priorité de réalisation (ordonnancement pour Phase M)
 
 ### Sprint 1 — Fondations
-1. Initialiser le projet (Git, README, .gitignore)
+1. Choisir la stack technique et initialiser le projet
 2. Créer le design system CSS (variables, reset, animations de base)
-3. Construire le squelette SPA (`index.html` avec toutes les sections)
-4. Implémenter la navigation (navbar + smooth scroll)
+3. Construire le squelette multi-page (HTML sémantique pour chaque page)
+4. Implémenter la navbar commune + système de transitions inter-pages
 
-### Sprint 2 — Sections principales
-5. Section Hero (fly-in text, orbiting buttons, canvas grid)
-6. Section About Me (convecteur temporel, liens)
-7. Section Skills (compétences, anneau CV)
-8. Section Searching (Matrix pills, Mario bloc, Green AI)
-9. Section Projects (cartes projets avec hover effects)
+### Sprint 2 — Pages principales
+5. Page Home / Hero (fly-in text, orbiting buttons, canvas grid)
+6. Page About Me (convecteur temporel, liens, coordonnées)
+7. Page Skills (compétences, anneau CV)
+8. Page Searching (Matrix pills, Mario bloc, Green AI)
+9. Page Projects (cartes projets avec hover effects)
 
 ### Sprint 3 — Polish & qualité
-10. Section Contact (CTA recruteur, liens sociaux)
+10. Transitions cinématiques variées entre les pages
 11. Responsive design complet (mobile → desktop)
 12. Accessibilité (ARIA, prefers-reduced-motion, contraste)
 13. SEO (meta tags, OpenGraph, Schema.org, sitemap)
