@@ -1,0 +1,66 @@
+import React from 'react';
+import styles from './ProjectCard.module.scss';
+import { Project } from '../../../types/models';
+
+interface ProjectCardProps {
+    project: Project;
+}
+
+const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+    const hasImage = Boolean(project.imageUrl);
+
+    return (
+        <div
+            className={`${styles.card} ${project.featured ? styles.featured : ''} ${project.id === 'demineur' ? styles.workInProgress : ''}`}
+            style={{ '--card-color': project.color || '#00f3ff' } as React.CSSProperties}
+        >
+            {/* Background layer: image or cyberpunk placeholder */}
+            <div className={styles.cardBackground}>
+                {hasImage ? (
+                    <img src={project.imageUrl} alt={project.title} loading="lazy" />
+                ) : (
+                    <div className={styles.placeholder} />
+                )}
+            </div>
+
+            {/* Always-visible content */}
+            <div className={styles.cardContent}>
+                <h3 className={styles.title}>{project.title}</h3>
+                <p className={styles.description}>{project.description}</p>
+                <div className={styles.tags}>
+                    {project.tags.map(tag => (
+                        <span key={tag} className={styles.tag}>{tag}</span>
+                    ))}
+                </div>
+            </div>
+
+            {/* Hover overlay with action buttons */}
+            <div className={styles.overlay}>
+                <div className={styles.links}>
+                    {project.demoLink && (
+                        <a
+                            href={project.demoLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`${styles.linkButton} ${styles.demo}`}
+                        >
+                            Demo
+                        </a>
+                    )}
+                    {project.repoLink && (
+                        <a
+                            href={project.repoLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`${styles.linkButton} ${styles.repo}`}
+                        >
+                            Code
+                        </a>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default ProjectCard;

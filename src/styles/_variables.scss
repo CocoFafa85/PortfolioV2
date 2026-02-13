@@ -1,0 +1,18 @@
+// SCSS Variables (for usage in mixins/functions)
+$neon-pink: #ff0080;
+$neon-magenta: #ff0080;
+$neon-cyan: #00f3ff;
+$neon-blue: #007bff;
+$neon-violet: #bc13fe;
+$neon-purple: #bc13fe;
+$neon-yellow: $neon-cyan; // FORCE CYAN SUPREMACY
+$neon-green: #39ff14;
+$neon-orange: $neon-cyan; // FORCE CYAN SUPREMACY
+
+$bg-primary: #0a0a0f;
+$bg-secondary: #12121a;
+$bg-deep: #060610;
+
+// Typography Key
+$font-orbitron: 'Orbitron', sans-serif;
+$font-montserrat: 'Montserrat Alternates', sans-serif;

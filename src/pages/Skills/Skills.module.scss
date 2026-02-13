@@ -1,0 +1,83 @@
+@import "../../styles/variables";
+
+.skillsPage {
+    padding: 120px 2rem 5rem;
+    min-height: 100vh;
+    background: linear-gradient(135deg, $bg-deep, $bg-primary);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+// ═══════════════════════════════════════════════
+// HERO SECTION — Intro + HoloCard side by side
+// ═══════════════════════════════════════════════
+.heroSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 4rem;
+    gap: 2rem;
+}
+
+.intro {
+    max-width: 800px;
+    text-align: center;
+    font-family: $font-montserrat;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+
+    h1 {
+        font-family: $font-orbitron;
+        font-size: 3rem;
+        color: $neon-cyan;
+        margin-bottom: 2rem;
+        text-shadow: 0 0 15px rgba($neon-cyan, 0.5);
+        text-transform: uppercase;
+    }
+
+    p {
+        margin-bottom: 1rem;
+    }
+}
+
+.holoCardWrapper {
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+}
+
+// ═══════════════════════════════════════════════
+// DESKTOP — Side by side layout
+// ═══════════════════════════════════════════════
+@media (min-width: 1024px) {
+    .heroSection {
+        flex-direction: row;
+        align-items: center;
+        gap: 3rem;
+    }
+
+    .intro {
+        flex: 1;
+        text-align: left;
+
+        h1 {
+            // Override the global centering for left-aligned layout
+            display: block !important;
+            margin-inline: 0 !important;
+            text-align: left;
+        }
+    }
+}

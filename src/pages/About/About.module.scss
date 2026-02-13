@@ -1,0 +1,35 @@
+@use '../../styles/variables' as *;
+
+// ═══════════════════════════════════════════════
+// ABOUT PAGE — Scrollable & responsive
+// ═══════════════════════════════════════════════
+.aboutPage {
+    width: 100%;
+    max-width: 900px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    padding: 100px 1.5rem 2rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+// ═══════════════════════════════════════════════
+// RESPONSIVE
+// ═══════════════════════════════════════════════
+@media (max-width: 768px) {
+    .aboutPage {
+        width: 90%;
+        padding: 70px 1rem 2rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .aboutPage {
+        max-width: 1000px;
+        font-size: 1.1rem;
+    }
+}

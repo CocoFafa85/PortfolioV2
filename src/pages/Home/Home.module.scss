@@ -1,0 +1,32 @@
+@use '../../styles/variables' as *;
+
+.homeWrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+
+    // Mobile stack removed for "Miniature" scaling approach
+    // We rely on the JS transform: scale() to fit content
+}
+
+.scalableContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    // Parallax Effect
+    // --mouse-x/y are set in Home.tsx (-0.5 to 0.5)
+    // We move slightly opposite to mouse
+    transform-style: preserve-3d;
+    transition: transform 0.1s linear; // Smooth out JS updates slightly if needed, but RAF is fast.
+
+    // Apply parallax to children if desired, or container
+}
