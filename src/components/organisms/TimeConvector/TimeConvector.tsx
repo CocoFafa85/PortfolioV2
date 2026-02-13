@@ -62,9 +62,9 @@ const TimeConvector: React.FC = () => {
     };
 
     const titleColorMap: Record<TimeState, string> = {
-        past: '#ff00ff',    // Neon Pink — distinctly different from default cyan
+        past: '#39ff14',    // Lime Green
         present: '#bc13fe', // Violet
-        future: '#39ff14',  // Lime
+        future: '#ff00ff',  // Neon Pink
     };
 
     return (
