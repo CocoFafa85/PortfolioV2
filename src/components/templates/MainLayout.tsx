@@ -24,7 +24,7 @@ const MainLayout: React.FC = () => {
             {location.pathname !== '/' && (
                 <div className={styles.backButton}>
                     <button onClick={() => navigate('/')}>
-                        &lt; Back to Orbit
+                        &lt; Retour
                     </button>
                 </div>
             )}

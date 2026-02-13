@@ -7,6 +7,7 @@
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
+    margin-top: 2rem;
     padding: 2rem;
     color: #fff;
 }
@@ -54,17 +55,18 @@
 
     h2 {
         font-family: $font-orbitron;
-        color: $neon-cyan;
+        color: var(--title-color, $neon-cyan);
         margin-bottom: 1rem;
         font-size: 2rem;
         text-transform: uppercase;
-        text-shadow: 0 0 5px rgba($neon-cyan, 0.5);
+        text-shadow: 0 0 5px currentColor;
     }
 
     p {
         font-family: $font-montserrat;
         line-height: 1.6;
         white-space: pre-line; // Handle newlines in text
+        text-align: justify;
     }
 
     // Glitch effect overlay

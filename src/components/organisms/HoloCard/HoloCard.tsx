@@ -15,12 +15,22 @@ interface GlitchTextProps {
 
 const GlitchText: React.FC<GlitchTextProps> = ({ text, isHovered }) => {
     const [display, setDisplay] = useState(text);
+    const [cycle, setCycle] = useState(0);
+    const isHoveredRef = useRef(isHovered);
+
+    // Keep ref in sync with prop
+    useEffect(() => {
+        isHoveredRef.current = isHovered;
+        if (isHovered) {
+            // Start a new cycle when hover begins
+            setCycle(c => c + 1);
+        } else {
+            setDisplay(text);
+        }
+    }, [isHovered, text]);
 
     useEffect(() => {
-        if (!isHovered) {
-            setDisplay(text);
-            return;
-        }
+        if (!isHoveredRef.current || cycle === 0) return;
 
         let iteration = 0;
         const interval = setInterval(() => {
@@ -38,11 +48,18 @@ const GlitchText: React.FC<GlitchTextProps> = ({ text, isHovered }) => {
             if (iteration >= text.length) {
                 clearInterval(interval);
                 setDisplay(text);
+                // Restart loop after a pause if still hovered
+                const timeout = setTimeout(() => {
+                    if (isHoveredRef.current) {
+                        setCycle(c => c + 1);
+                    }
+                }, 1500);
+                return () => clearTimeout(timeout);
             }
         }, 40);
 
         return () => clearInterval(interval);
-    }, [isHovered, text]);
+    }, [cycle, text]);
 
     return <span className={styles.glitchText}>{display}</span>;
 };

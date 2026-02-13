@@ -16,7 +16,7 @@ const Projects: React.FC = () => {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8 }}
             >
-                <h1 className="glitch-title" data-text="Le Holodeck">Le Holodeck</h1>
+                <h1 className="glitch-title" data-text="Projets">Projets</h1>
             </motion.div>
 
             <div className={styles.grid}>

@@ -61,6 +61,12 @@ const TimeConvector: React.FC = () => {
         });
     };
 
+    const titleColorMap: Record<TimeState, string> = {
+        past: '#00f3ff',    // Cyan
+        present: '#bc13fe', // Violet
+        future: '#39ff14',  // Lime
+    };
+
     return (
         <div className={styles.convectorContainer}>
             <nav className={styles.timelineNav}>
@@ -75,7 +81,10 @@ const TimeConvector: React.FC = () => {
                 ))}
             </nav>
 
-            <div className={styles.contentDisplay}>
+            <div
+                className={styles.contentDisplay}
+                style={{ '--title-color': titleColorMap[activeState] } as React.CSSProperties}
+            >
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={activeState}
