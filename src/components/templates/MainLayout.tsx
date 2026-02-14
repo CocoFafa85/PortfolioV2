@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import CyberpunkBackground from '../atoms/CyberpunkBackground/CyberpunkBackground';
 import styles from './MainLayout.module.scss';
 
 const MainLayout: React.FC = () => {
@@ -21,7 +22,9 @@ const MainLayout: React.FC = () => {
             {/* Perspective Grid removed */}
             <div className={styles.particlesBackground} />
 
-            {location.pathname !== '/' && (
+            {!isHome && <CyberpunkBackground />}
+
+            {!isHome && (
                 <div className={styles.backButton}>
                     <button onClick={() => navigate('/')}>
                         &lt; Retour
