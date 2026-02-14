@@ -24,7 +24,7 @@ interface DataPulse {
     progress: number;     // 0-1 along the segment path
     speed: number;
     brightness: number;
-    hue: number;          // 0=cyan, 1=violet, 2=pink
+    hue: number;          // 0=trace, 1=node, 2=pulse
     trail: number;        // length of trailing glow
 }
 
@@ -37,23 +37,23 @@ const NODE_CHANCE = 0.35;          // probability a grid intersection becomes a 
 const CONNECTION_MAX_DIST = 3;     // max grid cells for a connection
 const MAX_PULSES = 25;
 const PULSE_SPAWN_INTERVAL = 400;  // ms
-const MOUSE_SCANNER_RADIUS = 200;
+const MOUSE_SCANNER_RADIUS = 70;   // Reduced from 200 (approx / 3)
 const NODE_BASE_RADIUS = 2;
 const NODE_GLOW_RADIUS = 12;
 
-// Color palette — matches QuantumField
+// Color palette — Holo-Motherboard
 const COLORS = {
-    cyan:   { r: 0,   g: 243, b: 255 },
-    violet: { r: 188, g: 19,  b: 254 },
-    pink:   { r: 255, g: 0,   b: 128 },
+    trace: { r: 0, g: 255, b: 157 }, // #00ff9d Green Neon (Traces)
+    node: { r: 255, g: 255, b: 255 }, // #ffffff White (Nodes)
+    pulse: { r: 0, g: 188, b: 212 }, // #00bcd4 Cyan Tech (Pulses override)
 };
 
-const COLOR_ARRAY = [COLORS.cyan, COLORS.violet, COLORS.pink];
+const COLOR_ARRAY = [COLORS.trace, COLORS.node, COLORS.pulse];
 
 // Layer config for depth effect (back → front)
 const LAYERS = [
     { opacity: 0.08, scale: 0.6, speed: 0.3, lineWidth: 0.3 },
-    { opacity: 0.2,  scale: 0.8, speed: 0.6, lineWidth: 0.5 },
+    { opacity: 0.2, scale: 0.8, speed: 0.6, lineWidth: 0.5 },
     { opacity: 0.45, scale: 1.0, speed: 1.0, lineWidth: 0.8 },
 ];
 
@@ -64,9 +64,13 @@ const LAYERS = [
 function generateCircuitry(
     width: number,
     height: number,
-    layerScale: number
+    layerScale: number,
+    isMobile: boolean
 ): { nodes: CircuitNode[]; segments: CircuitSegment[] } {
-    const spacing = GRID_SPACING / layerScale;
+    // Reduce density on mobile by increasing spacing
+    const baseSpacing = isMobile ? GRID_SPACING * 2 : GRID_SPACING;
+    const spacing = baseSpacing / layerScale;
+
     const cols = Math.ceil(width / spacing) + 2;
     const rows = Math.ceil(height / spacing) + 2;
     const nodes: CircuitNode[] = [];
@@ -215,26 +219,28 @@ const CyberpunkBackground: React.FC = () => {
 
     // Mobile detection
     useEffect(() => {
-        const mq = window.matchMedia('(max-width: 768px)');
-        setIsMobile(mq.matches);
-        const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-        mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 769);
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    const initLayers = useCallback((width: number, height: number) => {
+    const initLayers = useCallback((width: number, height: number, mobile: boolean) => {
         layersRef.current = LAYERS.map((layerConfig) => {
             const { nodes, segments } = generateCircuitry(
                 width,
                 height,
-                layerConfig.scale
+                layerConfig.scale,
+                mobile
             );
             return { nodes, segments, pulses: [] };
         });
     }, []);
 
     useEffect(() => {
-        if (isMobile) return;
+        // Removed: if (isMobile) return; --> Now we render on mobile too
 
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -245,7 +251,7 @@ const CyberpunkBackground: React.FC = () => {
         const resize = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            initLayers(canvas.width, canvas.height);
+            initLayers(canvas.width, canvas.height, window.innerWidth < 769);
         };
 
         const handleMouseMove = (e: MouseEvent) => {
@@ -276,7 +282,7 @@ const CyberpunkBackground: React.FC = () => {
                             progress: 0,
                             speed: (0.002 + Math.random() * 0.004) * LAYERS[li].speed,
                             brightness: 0.7 + Math.random() * 0.3,
-                            hue: Math.floor(Math.random() * 3),
+                            hue: Math.floor(Math.random() * 3), // 0-2 index in COLOR_ARRAY
                             trail: 0.08 + Math.random() * 0.12,
                         });
                     }
@@ -308,7 +314,7 @@ const CyberpunkBackground: React.FC = () => {
                     segment.brightness += (maxProximity - segment.brightness) * 0.08;
 
                     const alpha = (config.opacity + segment.brightness * 0.4) * 0.6;
-                    const color = COLORS.cyan;
+                    const color = COLORS.trace; // Main trace color
 
                     ctx.beginPath();
                     ctx.moveTo(path[0].x, path[0].y);
@@ -353,7 +359,7 @@ const CyberpunkBackground: React.FC = () => {
 
                     // Outer glow for bright nodes
                     if (node.brightness > 0.15 || node.connections.length > 1) {
-                        const glowColor = node.connections.length > 1 ? COLORS.violet : COLORS.cyan;
+                        const glowColor = node.connections.length > 1 ? COLORS.pulse : COLORS.trace;
                         const glowRadius = NODE_GLOW_RADIUS * (0.5 + node.brightness);
                         const gradient = ctx.createRadialGradient(
                             node.x, node.y, 0,
@@ -368,7 +374,7 @@ const CyberpunkBackground: React.FC = () => {
                     }
 
                     // Node core
-                    const coreColor = node.connections.length > 1 ? COLORS.violet : COLORS.cyan;
+                    const coreColor = COLORS.node; // White nodes
                     ctx.beginPath();
                     ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
                     ctx.fillStyle = `rgba(${coreColor.r}, ${coreColor.g}, ${coreColor.b}, ${alpha})`;
@@ -442,7 +448,7 @@ const CyberpunkBackground: React.FC = () => {
                 const scannerAlpha = 0.12 + Math.sin(timestamp * 0.003) * 0.04;
                 ctx.beginPath();
                 ctx.arc(mouse.x, mouse.y, MOUSE_SCANNER_RADIUS, 0, Math.PI * 2);
-                ctx.strokeStyle = `rgba(0, 243, 255, ${scannerAlpha})`;
+                ctx.strokeStyle = `rgba(${COLORS.trace.r}, ${COLORS.trace.g}, ${COLORS.trace.b}, ${scannerAlpha})`;
                 ctx.lineWidth = 0.5;
                 ctx.stroke();
 
@@ -451,8 +457,8 @@ const CyberpunkBackground: React.FC = () => {
                     mouse.x, mouse.y, 0,
                     mouse.x, mouse.y, MOUSE_SCANNER_RADIUS
                 );
-                scanGradient.addColorStop(0, 'rgba(0, 243, 255, 0.06)');
-                scanGradient.addColorStop(0.5, 'rgba(188, 19, 254, 0.03)');
+                scanGradient.addColorStop(0, `rgba(${COLORS.trace.r}, ${COLORS.trace.g}, ${COLORS.trace.b}, 0.06)`);
+                scanGradient.addColorStop(0.5, `rgba(${COLORS.pulse.r}, ${COLORS.pulse.g}, ${COLORS.pulse.b}, 0.03)`);
                 scanGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
                 ctx.beginPath();
                 ctx.arc(mouse.x, mouse.y, MOUSE_SCANNER_RADIUS, 0, Math.PI * 2);
@@ -471,7 +477,7 @@ const CyberpunkBackground: React.FC = () => {
                         arcAngle,
                         arcAngle + 0.4
                     );
-                    ctx.strokeStyle = `rgba(0, 243, 255, ${0.15 - i * 0.03})`;
+                    ctx.strokeStyle = `rgba(${COLORS.trace.r}, ${COLORS.trace.g}, ${COLORS.trace.b}, ${0.15 - i * 0.03})`;
                     ctx.lineWidth = 1;
                     ctx.stroke();
                 }
@@ -494,8 +500,8 @@ const CyberpunkBackground: React.FC = () => {
         };
     }, [isMobile, initLayers]);
 
-    // Don't render on mobile
-    if (isMobile) return null;
+    // Don't render on mobile - REMOVED! we render canvas now
+    // if (isMobile) return null;
 
     return (
         <canvas

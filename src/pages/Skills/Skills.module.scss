@@ -3,7 +3,8 @@
 .skillsPage {
     padding: 120px 2rem 5rem;
     min-height: 100vh;
-    background: linear-gradient(135deg, $bg-deep, $bg-primary);
+    // background: linear-gradient(135deg, $bg-deep, $bg-primary); // Removed for CyberpunkBackground visibility
+    background: transparent;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -28,8 +29,17 @@
     text-align: center;
     font-family: $font-montserrat;
     line-height: 1.6;
+    line-height: 1.6;
     font-size: 1.1rem;
     color: rgba(255, 255, 255, 0.9);
+    
+    // Readability boost
+    background: rgba($bg-secondary, 0.7);
+    backdrop-filter: blur(4px);
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid rgba($neon-cyan, 0.1);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 
     h1 {
         font-family: $font-orbitron;

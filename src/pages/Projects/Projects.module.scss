@@ -3,7 +3,8 @@
 .projectsPage {
     padding: 120px 2rem 5rem;
     min-height: 100vh;
-    background: linear-gradient(135deg, $bg-primary, $bg-deep, $bg-secondary);
+    // background: linear-gradient(135deg, $bg-primary, $bg-deep, $bg-secondary);
+    background: transparent;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,6 +15,13 @@
     text-align: center;
     width: fit-content;
     margin-inline: auto;
+
+    // Readability
+    padding: 1rem 2rem;
+    background: rgba($bg-secondary, 0.6);
+    backdrop-filter: blur(4px);
+    border-radius: 12px;
+    border: 1px solid rgba($neon-cyan, 0.1);
 
     h1 {
         font-family: $font-orbitron;

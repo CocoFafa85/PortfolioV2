@@ -12,6 +12,17 @@
     align-items: center;
     margin: 0 auto;
     padding: 100px 1.5rem 2rem;
+
+    h1 {
+        // Readability
+        padding: 1rem 2rem;
+        background: rgba($bg-secondary, 0.6);
+        backdrop-filter: blur(4px);
+        border-radius: 12px;
+        border: 1px solid rgba($neon-cyan, 0.1);
+        width: fit-content;
+        margin-bottom: 2rem;
+    }
 }
 
 // ═══════════════════════════════════════════════
