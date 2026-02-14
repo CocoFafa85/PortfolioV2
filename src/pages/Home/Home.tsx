@@ -24,9 +24,9 @@ const Home: React.FC = () => {
         };
 
         const handleResize = () => {
-            const targetWidth = 1200;
+            const targetWidth = 1000;
             const currentRatio = window.innerWidth / targetWidth;
-            setScale(Math.min(currentRatio, 1));
+            setScale(Math.max(0.7, Math.min(currentRatio, 1)));
         };
 
         window.addEventListener('mousemove', handleMouseMove);
