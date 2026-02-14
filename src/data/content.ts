@@ -95,6 +95,7 @@ Mon approche est résolument DevOps et Agile. Au-delà du simple versioning avec
                 title: "SolarSystem",
                 description: "Simulation à l'échelle du temps et de l'espace du système solaire en CSS et Three.JS .",
                 demoLink: "https://cocofafa85.github.io/SolarSystem/index.html",
+                repoLink: "https://github.com/CocoFafa85/SolarSystem",
                 tags: ["CSS", "JavaScript"],
                 color: "#0aff0a"
             },

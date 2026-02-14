@@ -70,15 +70,22 @@ const TimeConvector: React.FC = () => {
     return (
         <div className={styles.convectorContainer}>
             <nav className={styles.timelineNav}>
-                {(['past', 'present', 'future'] as TimeState[]).map((state) => (
-                    <button
-                        key={state}
-                        className={`${styles.navButton} ${activeState === state ? styles.active : ''}`}
-                        onClick={() => handleSwitch(state)}
-                    >
-                        {state.toUpperCase()}
-                    </button>
-                ))}
+                {(['past', 'present', 'future'] as TimeState[]).map((state) => {
+                    const labels: Record<TimeState, string> = {
+                        past: 'passé',
+                        present: 'présent',
+                        future: 'futur',
+                    };
+                    return (
+                        <button
+                            key={state}
+                            className={`${styles.navButton} ${activeState === state ? styles.active : ''}`}
+                            onClick={() => handleSwitch(state)}
+                        >
+                            {labels[state].toUpperCase()}
+                        </button>
+                    );
+                })}
             </nav>
 
             <div

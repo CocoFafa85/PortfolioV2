@@ -3,7 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import styles from './HoloCard.module.scss';
 
 const CV_URL = '/cv_resume.pdf';
-const CV_DRIVE_URL = 'https://drive.google.com/file/d/1ybGdg18FpvSujVRr3X_gaF04kyUevnxl/view?usp=sharing';
+const CV_DRIVE_URL = 'https://drive.google.com/file/d/1sC28J9-BasZtjzfEgMwkhs4ufT7h4SIa/view?usp=sharing';
 
 const GLITCH_CHARS = '!@#$%^&*()_+-=[]{}|;:,.<>?/\\~`0123456789ABCDEF';
 const BARCODE_PATTERN = [2, 1, 3, 1, 2, 3, 1, 2, 1, 3, 2, 1, 1, 3, 2, 1, 2, 3, 1, 2, 1, 1, 3, 2];
