@@ -17,12 +17,12 @@ Après avoir obtenu un baccalauréat général scientifique, j'ai exploré diver
             {
                 id: "present",
                 title: "Qui je suis",
-                content: `Actuellement, je suis détenteur d'un BTS SIO et je poursuivis ma voie entroisième année de bachelor en alternance. Je consacre la majeure partie de mon temps à travailler et à acquérir un maximum de compétences dans ce domaine. Je partage ma vie avec ma compagne qui me soutient énormément dans mes projets. Retrouvez mon parcours sur [LinkedIn](http://www.linkedin.com/in/corentin-fanic-832630293).`
+                content: `Actuellement, je suis détenteur d'un BTS SIO et je poursuis ma voie en troisième année de bachelor en alternance. Je consacre la majeure partie de mon temps à travailler et à acquérir un maximum de compétences dans ce domaine. Je partage ma vie avec ma compagne qui me soutient énormément dans mes projets. Retrouvez mon parcours sur [LinkedIn](http://www.linkedin.com/in/corentin-fanic-832630293).`
             },
             {
                 id: "future",
                 title: "Qui je serai",
-                content: `Une fois mon cursus terminé et mon niveau de connaissances au top, je me lancerai dans une carrière de [DevSecOps](https://www.opiiec.fr/metiers/139882-specialiste-devops#:~:text=Finalit%C3%A9%20du%20m%C3%A9tier,monitoring%20des%20performances%20des%20applications). Ce domaine me permet de m'éclater ce qui me donne la détermination nécessaire pour atteindre mon objectif. Bien que mon niveau d'étude restera à BAC+3, je compte accumuler de l'expérience et maîtriser les subtilités du monde du travail pour gravir les échelons autant que possible.
+                content: `Une fois mon cursus terminé et mon niveau de connaissances au top, j'aimerais faire une carrière de [DevSecOps](https://www.opiiec.fr/metiers/139882-specialiste-devops#:~:text=Finalit%C3%A9%20du%20m%C3%A9tier,monitoring%20des%20performances%20des%20applications). Ce domaine me permet de m'éclater ce qui me donne la détermination nécessaire pour atteindre mon objectif. Bien que mon niveau d'étude restera à BAC+3, je compte accumuler de l'expérience et maîtriser les subtilités du monde du travail pour gravir les échelons autant que possible.
 Mon objectif à long terme est d'avoir une fonction de responsable d'équipe ou de stratégie`
             }
         ]
