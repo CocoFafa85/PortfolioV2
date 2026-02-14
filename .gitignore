@@ -18,6 +18,9 @@ desktop.ini
 # Agent
 .agent/
 .gemini/
+specs/
+ARCHITECTURE.md
+TECH_RULES.md
 
 # Build
 node_modules/
